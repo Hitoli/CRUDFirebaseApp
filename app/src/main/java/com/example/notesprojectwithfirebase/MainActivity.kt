@@ -13,7 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.notesprojectwithfirebase.Screens.HomeScreen
 import com.example.notesprojectwithfirebase.Screens.InfoDialog
 import com.example.notesprojectwithfirebase.ui.theme.NotesProjectWithFirebaseTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

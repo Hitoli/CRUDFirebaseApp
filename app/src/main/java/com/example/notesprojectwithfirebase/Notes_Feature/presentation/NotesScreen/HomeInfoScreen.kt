@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.notesprojectwithfirebase.Consts.ConstantsOfProject
+import com.example.notesprojectwithfirebase.Notes_Feature.utils.Consts.ConstantsOfProject
 import com.example.notesprojectwithfirebase.ui.theme.ButtonBackground1
 
 

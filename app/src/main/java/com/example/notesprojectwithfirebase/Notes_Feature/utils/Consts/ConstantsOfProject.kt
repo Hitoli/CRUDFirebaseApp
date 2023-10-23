@@ -1,4 +1,4 @@
-package com.example.notesprojectwithfirebase.Consts
+package com.example.notesprojectwithfirebase.Notes_Feature.utils.Consts
 
 object ConstantsOfProject {
     const val HomeScreenTitle ="Notes"

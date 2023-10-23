@@ -1,4 +1,5 @@
-package com.example.notesprojectwithfirebase.Screens
+package com.example.notesprojectwithfirebase.Notes_Feature.presentation.EditScreen
+
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -30,16 +33,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.notesprojectwithfirebase.Consts.ConstantsOfProject
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.notesprojectwithfirebase.Notes_Feature.data.data_source.source.firebase.noteDataFirebase.NoteDataFirebase
+import com.example.notesprojectwithfirebase.Notes_Feature.presentation.viewmodel.NoteViewModel
+import com.example.notesprojectwithfirebase.Notes_Feature.utils.Consts.ConstantsOfProject
 import com.example.notesprojectwithfirebase.R
 import com.example.notesprojectwithfirebase.ui.theme.Background1
 import com.example.notesprojectwithfirebase.ui.theme.ButtonBackground1
+import com.example.notesprojectwithfirebase.ui.theme.Sandybrown
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun EditorScreen(noteViewModel: NoteViewModel = hiltViewModel()) {
     Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = { /*TODO*/ }, modifier = Modifier
+        FloatingActionButton(onClick = { noteViewModel
+            .saveNoteViewModel(
+                NoteDataFirebase(id=1, title = "RandomNote1", content = "RandomNoteContent1",
+                    timeStamp = "10:30AM")
+            ) }, modifier = Modifier
             .padding(8.dp), containerColor = ButtonBackground1) {
             Icon(imageVector = Icons.Default.Add,
                 contentDescription = ConstantsOfProject.HomeScreenAdd,
@@ -49,14 +60,22 @@ fun HomeScreen() {
         val pad =it
         Column(modifier = Modifier
             .fillMaxSize()
-            .background(Background1)) {
+            .background(Background1)
+            .padding(pad)) {
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp, horizontal = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically){
 
+                Box(modifier = Modifier
+                    .background(ButtonBackground1, shape = RoundedCornerShape(24))
+                    .padding(12.dp)
+                    .clickable { /*TODO*/ }){
+                    Icon(painter = painterResource(id = R.drawable.search),
+                        contentDescription = ConstantsOfProject.HomeScreenSearch,
+                        tint = Color.White, modifier = Modifier.size(20.dp))
+                }
 
-                Text(text = ConstantsOfProject.HomeScreenTitle, color = Color.White, fontSize = 32.sp)
 
                 Row(modifier = Modifier.padding(8.dp)){
 
@@ -85,29 +104,11 @@ fun HomeScreen() {
 
             }
 
-            Column(modifier = Modifier
-                .padding(vertical = 16.dp, horizontal = 24.dp)
-                ,
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-
-                Image(
-                    painter = painterResource(id = R.drawable.rafiki),
-                    contentDescription =ConstantsOfProject.HomeScreenNotesIcon,
-                    modifier = Modifier.size(350.dp))
-                Spacer(modifier = Modifier.padding(8.dp))
-
-                Text(text = ConstantsOfProject.HomeScreenNotesIconTagLine, color = Color.White, fontSize = 20.sp)
-
-
-
-            }
-
-
-
-
+        }
+        Column() {
 
         }
+
     }
 
 
