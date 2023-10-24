@@ -1,7 +1,9 @@
-package com.example.notesprojectwithfirebase.Notes_Feature.data.data_source.di
+package com.example.notesprojectwithfirebase.Notes_Feature.data_source.di
 
-import com.example.notesprojectwithfirebase.Notes_Feature.data.data_source.repository.noteRepo.NoteRepository
-import com.example.notesprojectwithfirebase.Notes_Feature.data.data_source.repository.noteRepoImpl.NoteRepositoyImplementation
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.repository.noteRepo.NoteRepository
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.repository.noteRepoImpl.NoteRepositoyImplementation
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.getData.GetData
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.getData.GetDataInter
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.GetNotesUseCase
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.SaveNoteUseCase
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecaseImpl.GetNotesUseCaseImpl
@@ -22,11 +24,15 @@ class NotesDI {
     interface NoteMod{
         @Binds
         @Singleton
-        fun provideNoteRepo(noteRepositoyImplementation: NoteRepositoyImplementation):NoteRepository
+        fun provideNoteRepo(noteRepositoyImplementation: NoteRepositoyImplementation): NoteRepository
 
         @Binds
         @Singleton
         fun provideGetNoteUsecase(getNotesUseCaseImpl: GetNotesUseCaseImpl):GetNotesUseCase
+
+        @Binds
+        @Singleton
+        fun provideGetData(getData: GetData):GetDataInter
 
         @Binds
         @Singleton

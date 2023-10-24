@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -43,14 +43,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.notesprojectwithfirebase.Notes_Feature.utils.Consts.ConstantsOfProject
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.noteDataFirebase.NoteDataFirebase
+import com.example.notesprojectwithfirebase.Notes_Feature.presentation.Consts.ConstantsOfProject
 import com.example.notesprojectwithfirebase.R
 import com.example.notesprojectwithfirebase.ui.theme.Background1
 import com.example.notesprojectwithfirebase.ui.theme.ButtonBackground1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(onClick:()->Unit) {
+fun HomeScreen(ListOfNotes: List<NoteDataFirebase>, onClick:()->Unit) {
 
     var isDialogOpen by remember {
         mutableStateOf(false)
@@ -92,7 +93,12 @@ fun HomeScreen(onClick:()->Unit) {
             )
         }}) {
         val pad =it
-
+        
+        LazyColumn(){
+            items(ListOfNotes){
+                Text(text = it.title!!)
+            }
+        }
         if(isDialogOpen){
             Dialog(onDismissRequest = {
                 isDialogOpen = false

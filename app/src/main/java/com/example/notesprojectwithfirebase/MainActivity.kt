@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.notesprojectwithfirebase.Notes_Feature.presentation.EditScreen.EditorSaveDialog
 import com.example.notesprojectwithfirebase.Notes_Feature.presentation.EditScreen.EditorScreen
 import com.example.notesprojectwithfirebase.Notes_Feature.presentation.navigation.navNotesApp
 import com.example.notesprojectwithfirebase.ui.theme.NotesProjectWithFirebaseTheme
@@ -37,6 +36,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     NotesProjectWithFirebaseTheme {
-        EditorSaveDialog()
+
     }
 }

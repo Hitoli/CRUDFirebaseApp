@@ -1,4 +1,4 @@
-package com.example.notesprojectwithfirebase.Notes_Feature.data.data_source.source.room
+package com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.room
 
 import androidx.room.Dao
 import androidx.room.Insert

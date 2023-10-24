@@ -35,10 +35,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.example.notesprojectwithfirebase.Notes_Feature.utils.Consts.ConstantsOfProject
+import com.example.notesprojectwithfirebase.Notes_Feature.presentation.Consts.ConstantsOfProject
 import com.example.notesprojectwithfirebase.R
 import com.example.notesprojectwithfirebase.ui.theme.ButtonBackground1
-
+// What does visibility Icon does no idea
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditorScreen(onClickBack:()->Unit) {

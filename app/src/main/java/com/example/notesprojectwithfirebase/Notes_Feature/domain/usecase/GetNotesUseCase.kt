@@ -1,7 +1,8 @@
 package com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase
 
-import com.example.notesprojectwithfirebase.Notes_Feature.data.data_source.source.firebase.noteDataFirebase.NoteDataFirebase
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.noteDataFirebase.NoteDataFirebase
+import kotlinx.coroutines.flow.Flow
 
 interface GetNotesUseCase {
-    operator fun invoke():List<NoteDataFirebase>
+    operator fun invoke():Flow<List<NoteDataFirebase>>
 }
