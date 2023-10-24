@@ -8,10 +8,10 @@ import com.example.notesprojectwithfirebase.ui.theme.Maize
 import com.example.notesprojectwithfirebase.ui.theme.Sandybrown
 
 data class NoteDataFirebase(
-val id:Int?=null,
-val title:String?="",
-val content:String?="",
-val timeStamp:String?="",
+    val id:Int?=null,
+    var title:String?="",
+    val content:String?="",
+    val timeStamp:String?="",
 ){
     companion object{
         val colorInt = listOf(Sandybrown, Maize, Emerald, BlueMunsell, Fandango)
