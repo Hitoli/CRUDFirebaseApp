@@ -5,12 +5,13 @@ import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.fir
 import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.noteDataFirebase.NoteDataFirebase
 import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.saveData.SaveData
 import com.example.notesprojectwithfirebase.Notes_Feature.data_source.repository.noteRepo.NoteRepository
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.saveData.SaveDataInter
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NoteRepositoyImplementation @Inject constructor(
     val getData: GetDataInter,
-    val saveData: SaveData):
+    val saveData: SaveDataInter):
     NoteRepository {
     override fun getNotesFromDataSource(): Flow<List<NoteDataFirebase>> {
         return getData.getFirebaseData()

@@ -6,8 +6,10 @@ import com.example.notesprojectwithfirebase.ui.theme.Emerald
 import com.example.notesprojectwithfirebase.ui.theme.Fandango
 import com.example.notesprojectwithfirebase.ui.theme.Maize
 import com.example.notesprojectwithfirebase.ui.theme.Sandybrown
+import com.google.firebase.database.Exclude
 
 data class NoteDataFirebase(
+    @Exclude
     val id:Int?=null,
     var title:String?="",
     val content:String?="",

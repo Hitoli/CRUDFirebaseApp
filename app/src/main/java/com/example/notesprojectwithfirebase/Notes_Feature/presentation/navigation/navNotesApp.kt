@@ -26,6 +26,8 @@ fun navNotesApp(navController: NavHostController) {
         composable(Screens.EditorScreen.route){
             EditorScreen(onClickBack = {
                 navController.navigateUp()
+            }, onReturnBack = {
+                viewmodel.saveNoteViewModel(it)
             })
         }
 

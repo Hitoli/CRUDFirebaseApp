@@ -4,6 +4,8 @@ import com.example.notesprojectwithfirebase.Notes_Feature.data_source.repository
 import com.example.notesprojectwithfirebase.Notes_Feature.data_source.repository.noteRepoImpl.NoteRepositoyImplementation
 import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.getData.GetData
 import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.getData.GetDataInter
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.saveData.SaveData
+import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.saveData.SaveDataInter
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.GetNotesUseCase
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.SaveNoteUseCase
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecaseImpl.GetNotesUseCaseImpl
@@ -33,6 +35,11 @@ class NotesDI {
         @Binds
         @Singleton
         fun provideGetData(getData: GetData):GetDataInter
+
+        @Binds
+        @Singleton
+        fun provideSavetData(saveData: SaveData):SaveDataInter
+
 
         @Binds
         @Singleton

@@ -7,8 +7,8 @@ import com.google.firebase.database.FirebaseDatabase
 import javax.inject.Inject
 
 private const val TAG = "VALUESTOREDINFIREBASE"
-class SaveData @Inject constructor() {
-    fun SaveFirebaseData(dataValue: NoteDataFirebase){
+class SaveData @Inject constructor():SaveDataInter {
+    override fun SaveFirebaseData(dataValue: NoteDataFirebase){
         val dataBase = FirebaseDatabase.getInstance().getReference("NotesStoringData").child(Build.DEVICE)
         val id = dataBase.push().key ?: ""
         dataBase.child(id).setValue(dataValue).addOnCanceledListener {
