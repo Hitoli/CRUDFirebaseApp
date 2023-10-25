@@ -46,14 +46,15 @@ import com.example.notesprojectwithfirebase.ui.theme.ButtonBackground1
 fun EditorScreen(
     onClickBack: () -> Unit,
     onReturnBack: (noteDataFirebase: NoteDataFirebase) -> Unit,
+    onReceiveArguments:() -> NoteDataFirebase?,
 ) {
-    val currenttime:Long = System.currentTimeMillis()/60000
+    val currenttime: Long = System.currentTimeMillis() / 60000
 
     val FirebaseDatabaseTitle = remember {
-        mutableStateOf("")
+        mutableStateOf(onReceiveArguments()?.title)
     }
     val FirebaseDatabaseContent = remember {
-        mutableStateOf("")
+        mutableStateOf(onReceiveArguments()?.content)
     }
 
     var isDialogSaveOpen by remember {
@@ -159,9 +160,10 @@ fun EditorScreen(
                                         isDialogSaveOpen = false
                                         onReturnBack(
                                             NoteDataFirebase(
+                                                id = "",
                                                 title = FirebaseDatabaseTitle.value,
                                                 content = FirebaseDatabaseContent.value,
-                                                timeStamp =currenttime.toString()
+                                                timeStamp = currenttime.toString()
                                             )
                                         )
                                     }, colors = ButtonDefaults.buttonColors(
@@ -184,10 +186,10 @@ fun EditorScreen(
                 .fillMaxWidth()
                 .padding(pad)
         ) {
-            BasicTextField(value = FirebaseDatabaseTitle.value,
+            BasicTextField(value = FirebaseDatabaseTitle.value!!,
                 onValueChange = { Value ->
                     FirebaseDatabaseTitle.value = Value
-                    isTitleHintVisible = FirebaseDatabaseTitle.value.isEmpty()
+                    isTitleHintVisible = FirebaseDatabaseTitle.value!!.isEmpty()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -215,10 +217,10 @@ fun EditorScreen(
 
             Spacer(modifier = Modifier.size(16.dp))
 
-            BasicTextField(value = FirebaseDatabaseContent.value,
+            BasicTextField(value = FirebaseDatabaseContent.value!!,
                 onValueChange = { Value ->
                     FirebaseDatabaseContent.value = Value
-                    isContentHintVisible = FirebaseDatabaseContent.value.isEmpty()
+                    isContentHintVisible = FirebaseDatabaseContent.value!!.isEmpty()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

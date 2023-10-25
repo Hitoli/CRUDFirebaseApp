@@ -7,14 +7,23 @@ import com.google.firebase.database.FirebaseDatabase
 import javax.inject.Inject
 
 private const val TAG = "VALUESTOREDINFIREBASE"
-class SaveData @Inject constructor():SaveDataInter {
-    override fun SaveFirebaseData(dataValue: NoteDataFirebase){
-        val dataBase = FirebaseDatabase.getInstance().getReference("NotesStoringData").child(Build.DEVICE)
-        val id = dataBase.push().key ?: ""
-        dataBase.child(id).setValue(dataValue).addOnCanceledListener {
-            Log.e(TAG,"addOnCanceledListener")
-        }.addOnFailureListener{
-            Log.e(TAG,it.localizedMessage ?: "")
+
+class SaveData @Inject constructor() : SaveDataInter {
+    override fun SaveFirebaseData(dataValue: NoteDataFirebase) {
+        val dataBase =
+            FirebaseDatabase.getInstance().getReference("NotesStoringData").child(Build.DEVICE)
+        val idpush = dataBase.push().key ?: ""
+        dataBase.child(idpush).setValue(
+            NoteDataFirebase(
+                id = idpush,
+                title = dataValue.title,
+                content = dataValue.content,
+                timeStamp = dataValue.timeStamp
+            )
+        ).addOnCanceledListener {
+            Log.e(TAG, "addOnCanceledListener")
+        }.addOnFailureListener {
+            Log.e(TAG, it.localizedMessage ?: "")
         }.addOnSuccessListener {
             Log.i(TAG, "setData: $it")
         }

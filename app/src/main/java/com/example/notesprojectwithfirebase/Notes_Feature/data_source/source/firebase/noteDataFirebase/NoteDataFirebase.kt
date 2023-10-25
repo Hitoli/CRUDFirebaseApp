@@ -1,5 +1,6 @@
 package com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.noteDataFirebase
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.PrimaryKey
 import com.example.notesprojectwithfirebase.ui.theme.BlueMunsell
 import com.example.notesprojectwithfirebase.ui.theme.Emerald
@@ -10,7 +11,7 @@ import com.google.firebase.database.Exclude
 
 data class NoteDataFirebase(
     @Exclude
-    val id:Int?=null,
+    val id:String?=null,
     var title:String?="",
     val content:String?="",
     val timeStamp:String?="",

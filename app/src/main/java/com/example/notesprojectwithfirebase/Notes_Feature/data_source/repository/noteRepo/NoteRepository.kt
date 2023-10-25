@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
     fun getNotesFromDataSource(): Flow<List<NoteDataFirebase>>
-    suspend fun getNoteByID(ID:Int): NoteDataFirebase?
+    suspend fun getNoteByID(ID:String): NoteDataFirebase?
     suspend fun insertNote(noteDataFirebase: NoteDataFirebase)
-    suspend fun deleteNote(noteDataFirebase: NoteDataFirebase)
+    suspend fun deleteNote(ID:String )
 }
