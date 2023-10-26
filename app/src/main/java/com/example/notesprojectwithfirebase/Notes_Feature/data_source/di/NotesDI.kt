@@ -14,10 +14,12 @@ import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.DeleteN
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.GetNotesByIDUseCase
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.GetNotesUseCase
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.SaveNoteUseCase
+import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecase.SearchNoteUseCase
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecaseImpl.DeleteNotesUseCaseImpl
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecaseImpl.GetNotesByID
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecaseImpl.GetNotesUseCaseImpl
 import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecaseImpl.SaveNoteUseCaseImple
+import com.example.notesprojectwithfirebase.Notes_Feature.domain.usecaseImpl.SearchNotesUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -68,6 +70,10 @@ class NotesDI {
         @Binds
         @Singleton
         fun provideGetNoteByIDUsecase(getNotesByID: GetNotesByID): GetNotesByIDUseCase
+
+        @Binds
+        @Singleton
+        fun provideSearchNoteUsecase(searchNotesUseCaseImpl: SearchNotesUseCaseImpl): SearchNoteUseCase
 
     }
 

@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetDataInter {
     fun getFirebaseData() : Flow<List<NoteDataFirebase>>
+    fun getOrderedFirebaseData(title:String) : Flow<List<NoteDataFirebase>>
 }

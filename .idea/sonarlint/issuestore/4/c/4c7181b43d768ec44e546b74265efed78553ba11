@@ -1,13 +1,8 @@
 
-qkotlin:S117B"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ôì·ıÿÿÿÿ8ÿĞªŒ¶1
-Wkotlin:S1135’"2Complete the task associated to this TODO comment.(ïæïùÿÿÿÿ8›ÑªŒ¶1
-Okotlin:S1481T"1Remove this unused "cornerRadius" local variable.(´€şN8¢ÑªŒ¶1
-_kotlin:S1481J";Remove this unused "areSearchNoteAvailable" local variable.(À¨æÿÿÿÿÿ8¤ÑªŒ¶1
-Gkotlin:S1481"(Remove this unused "pad" local variable.(È«†¥8¤ÑªŒ¶1
->kotlin:S1128"Remove this unused import.(Á¤ŞÆøÿÿÿÿ8±ÑªŒ¶1
-9kotlin:S1128"Remove this unused import.(™òæÜ8±ÑªŒ¶1
->kotlin:S1128,"Remove this unused import.(ÊÏ‚£øÿÿÿÿ8±ÑªŒ¶1
->kotlin:S1128."Remove this unused import.(À¶Ìúÿÿÿÿ8±ÑªŒ¶1
->kotlin:S1128/"Remove this unused import.(Ä‡§­ıÿÿÿÿ8±ÑªŒ¶1
-9kotlin:S11287"Remove this unused import.(Ï‚¯„8±ÑªŒ¶1
-vkotlin:S3776B"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ôì·ıÿÿÿÿ8½ÑªŒ¶1
+qkotlin:S117="NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Õ”Ìşûÿÿÿÿ8ĞâÔ°¶1
+Wkotlin:S1135½"2Complete the task associated to this TODO comment.(ïæïùÿÿÿÿ8ŸÙ°¶1
+Okotlin:S1481S"1Remove this unused "cornerRadius" local variable.(´€şN8îâÔ°¶1
+_kotlin:S1481I";Remove this unused "areSearchNoteAvailable" local variable.(À¨æÿÿÿÿÿ8îâÔ°¶1
+Gkotlin:S1481~"(Remove this unused "pad" local variable.(È«†¥8îâÔ°¶1
+9kotlin:S1128"Remove this unused import.(™òæÜ8üâÔ°¶1
+vkotlin:S3776<"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(›¼¾“üÿÿÿÿ8ŠãÔ°¶1

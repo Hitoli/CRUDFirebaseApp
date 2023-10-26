@@ -41,4 +41,41 @@ class GetData @Inject constructor() : GetDataInter {
 
 
     }
+
+    override fun getOrderedFirebaseData(title:String): Flow<List<NoteDataFirebase>> {
+        return callbackFlow {
+            Log.e("datastoredvalueinfirebase", "GET DATA STARTED")
+
+            val db = FirebaseDatabase.getInstance()
+                .getReference("NotesStoringData").child(Build.DEVICE).orderByChild(title)
+            val listener = db.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(data in snapshot.children){
+                        if(data.child(title).exists()){
+
+                        }
+                    }
+                    val notesList = snapshot.children.mapNotNull { noteSnapshot ->
+                        if(noteSnapshot.child(title).exists()){
+                            noteSnapshot.child(title).getValue(NoteDataFirebase::class.java)
+                        }else{
+                            noteSnapshot.getValue(NoteDataFirebase::class.java)
+                        }
+
+                    }
+                    Log.e("datastoredvalueinfirebase", notesList.toString())
+                    trySend(notesList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    close(error.toException())
+                }
+            })
+
+            awaitClose {
+                db.removeEventListener(listener)
+            }
+        }
+
+    }
 }

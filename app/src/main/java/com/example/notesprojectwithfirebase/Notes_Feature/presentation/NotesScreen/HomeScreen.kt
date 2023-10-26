@@ -1,5 +1,6 @@
 package com.example.notesprojectwithfirebase.Screens
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -41,6 +42,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -58,11 +64,21 @@ import com.example.notesprojectwithfirebase.ui.theme.Fandango
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
-    ListOfNotes: List<NoteDataFirebase>,
+    ListOfNote: List<NoteDataFirebase>,
     onClick: () -> Unit,
-    onDeleteClick: (ID: String) -> Unit,
-    onSelectClick: (ID: String) -> Unit,
+    onDeleteClick: (ID: String?) -> Unit,
+    onSelectClick: (ID: String?) -> Unit,
+    onClearSearchClick:()->Unit,
+    onSearchClick:(title:String?)->List<NoteDataFirebase>
 ) {
+
+    var ListofNotes by remember{
+        mutableStateOf(ListOfNote)
+    }
+    var ListofSearchNotes by remember{
+        mutableStateOf<List<NoteDataFirebase>>(emptyList())
+    }
+    Log.e("ListofSesarchNotes11",ListofSearchNotes.toString())
 
     var isDialogOpen by remember {
         mutableStateOf(false)
@@ -70,8 +86,8 @@ fun HomeScreen(
     var areNoteAvailable by remember {
         mutableStateOf(false)
     }
-    var areSearchNoteAvailable by remember {
-        mutableStateOf(false)
+    var areSearchNote by remember {
+        mutableStateOf("")
     }
     var isSearchOpen by remember {
         mutableStateOf(false)
@@ -80,16 +96,18 @@ fun HomeScreen(
     var longPressDetected by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf("") }
 
-    var cornerRadius: Dp = 10.dp
+
 
     Scaffold(topBar = {
         TopAppBar(modifier = Modifier.padding(16.dp),
-            title = { Text(text = ConstantsOfProject.HomeScreenInfo, fontSize = 28.sp) },
+            title = { Text(text = "Notes", fontSize = 28.sp) },
             actions = {
                 Box(modifier = Modifier
                     .background(ButtonBackground1, shape = RoundedCornerShape(24))
                     .padding(16.dp)
-                    .clickable { isSearchOpen = true }) {
+                    .clickable { isSearchOpen = true
+                    onSearchClick(areSearchNote)
+                    }) {
                     Icon(
                         painter = painterResource(id = R.drawable.search),
                         contentDescription = ConstantsOfProject.HomeScreenSearch,
@@ -122,10 +140,11 @@ fun HomeScreen(
                 contentDescription = "ADD FLOATING BUTTON"
             )
         }
+
     }) {
         val pad = it
 
-        if (ListOfNotes.isNotEmpty()) {
+        if (ListofNotes.isNotEmpty()) {
             areNoteAvailable = true
         }
 
@@ -192,7 +211,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 16.dp, horizontal = 24.dp),
+                .padding(top = 100.dp, bottom = 40.dp, start = 24.dp, end = 24.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -210,71 +229,187 @@ fun HomeScreen(
                     fontSize = 20.sp
                 )
             } else {
-                LazyColumn() {
-                    items(ListOfNotes) { note ->
-                        Box(
-                            modifier = Modifier
-                                .background(Fandango)
-                                .padding(6.dp)
-                                .combinedClickable(onLongClick = {
-                                    selectedIndex = note.id ?: ""
+                if(isSearchOpen){
+                    Log.e("ListofSesarchNotes",ListofSearchNotes.toString())
+                    LazyColumn {
+                        items(ListofSearchNotes) { note ->
+                            Box(
+                                modifier = Modifier
+                                    .background(Fandango)
+                                    .combinedClickable(onLongClick = {
+                                        selectedIndex = note.id ?: "000"
+                                        longPressDetected = true
+                                    }, onClick = { longPressDetected = false
+                                        onSelectClick(selectedIndex)
+                                    }
+                                    )) {
+                                if (selectedIndex == note.id && longPressDetected) {
+                                    Box(
+                                        modifier = Modifier
+                                            .background(Color.Red)
+                                            .padding(30.dp)
+                                            .fillMaxWidth()
+                                            .combinedClickable(onLongClick = {
+                                                onDeleteClick(selectedIndex)
+                                                longPressDetected = true
+                                            }, onClick = { longPressDetected = false
 
-                                }, onClick = { longPressDetected = false }
-                                )) {
-                            if (selectedIndex == note.id) {
-                                Box(
-                                    modifier = Modifier
-                                        .background(Color.Red)
-                                        .padding(6.dp)
+                                            }
+                                            )) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.delete),
+                                            contentDescription = ConstantsOfProject.HomeScreenInfo,
+                                            tint = Color.White, modifier = Modifier
+                                                .size(40.dp)
+                                                .align(Alignment.Center)
+                                        )
+                                    }
+                                }else if(selectedIndex!=note.id || !longPressDetected){
+
+                                    Box(modifier = Modifier
                                         .fillMaxWidth()
-                                        .combinedClickable(onLongClick = {
-                                            onDeleteClick(selectedIndex)
-                                        }, onClick = {longPressDetected = false}
-                                        )) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.delete),
-                                        contentDescription = ConstantsOfProject.HomeScreenInfo,
-                                        tint = Color.White, modifier = Modifier.size(40.dp)
-                                    )
-                                }
-                            }
-                            if(!longPressDetected){
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp)
-                                        .padding(end = 32.dp).clickable {
-                                                                        onSelectClick(selectedIndex)
-                                        },
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Text(
-                                        text = note.title!!,
-                                        style = MaterialTheme.typography.headlineMedium,
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                    Spacer(modifier = Modifier.size(30.dp))
-                                    Text(
-                                        text = note.content!!,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onSurface,
-                                        maxLines = 10,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
+                                        .padding(16.dp).combinedClickable(onLongClick = {
+                                            selectedIndex = note.id ?: ""
+                                            longPressDetected = true
+                                        }, onClick = { longPressDetected = false
+                                            onSelectClick(note.id)}
+                                        )
+                                        .padding(end = 32.dp)
+                                        .clickable {
+                                            onSelectClick(selectedIndex)
+                                        }){
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(16.dp).combinedClickable(onLongClick = {
+                                                    selectedIndex = note.id ?: ""
+                                                    longPressDetected = true
+
+                                                }, onClick = { longPressDetected = false
+                                                    onSelectClick(note.id)}
+                                                )
+                                                .padding(end = 32.dp),
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Text(
+                                                text = note.title!!,
+                                                style = MaterialTheme.typography.headlineMedium,
+                                                color = MaterialTheme.colorScheme.onSurface,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                            Spacer(modifier = Modifier.size(30.dp))
+                                            Text(
+                                                text = note.content!!,
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                color = MaterialTheme.colorScheme.onSurface,
+                                                maxLines = 10,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+
+                                        }
+                                    }
 
                                 }
+
+
                             }
-
-
+                            Spacer(modifier = Modifier.size(30.dp))
 
                         }
-                        Spacer(modifier = Modifier.size(30.dp))
+                    }
+                }else{
+                    LazyColumn {
+                        items(ListofNotes) { note ->
+                            Box(
+                                modifier = Modifier
+                                    .background(Fandango)
+                                    .combinedClickable(onLongClick = {
+                                        selectedIndex = note.id ?: "000"
+                                        longPressDetected = true
+                                    }, onClick = { longPressDetected = false
+                                        onSelectClick(selectedIndex)
+                                    }
+                                    )) {
+                                if (selectedIndex == note.id && longPressDetected) {
+                                    Box(
+                                        modifier = Modifier
+                                            .background(Color.Red)
+                                            .padding(30.dp)
+                                            .fillMaxWidth()
+                                            .combinedClickable(onLongClick = {
+                                                onDeleteClick(selectedIndex)
+                                                longPressDetected = true
+                                            }, onClick = { longPressDetected = false
 
+                                            }
+                                            )) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.delete),
+                                            contentDescription = ConstantsOfProject.HomeScreenInfo,
+                                            tint = Color.White, modifier = Modifier
+                                                .size(40.dp)
+                                                .align(Alignment.Center)
+                                        )
+                                    }
+                                }else if(selectedIndex!=note.id || !longPressDetected){
+
+                                    Box(modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp).combinedClickable(onLongClick = {
+                                            selectedIndex = note.id ?: ""
+                                            longPressDetected = true
+                                        }, onClick = { longPressDetected = false
+                                            onSelectClick(note.id)}
+                                        )
+                                        .padding(end = 32.dp)
+                                        .clickable {
+                                            onSelectClick(selectedIndex)
+                                        }){
+                                        Column(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(16.dp).combinedClickable(onLongClick = {
+                                                    selectedIndex = note.id ?: ""
+                                                    longPressDetected = true
+
+                                                }, onClick = { longPressDetected = false
+                                                    onSelectClick(note.id)}
+                                                )
+                                                .padding(end = 32.dp),
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally
+                                        ) {
+                                            Text(
+                                                text = note.title!!,
+                                                style = MaterialTheme.typography.headlineMedium,
+                                                color = MaterialTheme.colorScheme.onSurface,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                            Spacer(modifier = Modifier.size(30.dp))
+                                            Text(
+                                                text = note.content!!,
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                color = MaterialTheme.colorScheme.onSurface,
+                                                maxLines = 10,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+
+                                        }
+                                    }
+
+                                }
+
+
+                            }
+                            Spacer(modifier = Modifier.size(30.dp))
+
+                        }
                     }
                 }
+
             }
 
         }
@@ -286,12 +421,18 @@ fun HomeScreen(
                 .background(Background1)
                 .padding(16.dp)
         ) {
-            OutlinedTextField(value = "", onValueChange = {}, modifier = Modifier
+            OutlinedTextField(value = areSearchNote, onValueChange = {
+                areSearchNote =it
+            }, modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged {
                     showClearButton = true
                 }, leadingIcon = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { ListofSearchNotes = onSearchClick(areSearchNote)
+                    Log.e("areSearchNote", ListofSearchNotes.toString())
+                    Log.e("areSearchNote", areSearchNote.toString())
+
+                }) {
                     Icon(
                         painter = painterResource(id = R.drawable.search),
                         contentDescription = "SEARCH",
@@ -305,7 +446,9 @@ fun HomeScreen(
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    IconButton(onClick = { isSearchOpen = false }) {
+                    IconButton(onClick = { isSearchOpen = false
+                        onClearSearchClick()
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.close),
                             contentDescription = "SEARCH",
@@ -321,6 +464,7 @@ fun HomeScreen(
             })
         }
     }
+
 }
 
 

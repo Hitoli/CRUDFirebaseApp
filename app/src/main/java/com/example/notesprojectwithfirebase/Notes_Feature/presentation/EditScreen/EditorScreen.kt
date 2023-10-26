@@ -1,6 +1,7 @@
 package com.example.notesprojectwithfirebase.Notes_Feature.presentation.EditScreen
 
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -50,12 +51,29 @@ fun EditorScreen(
 ) {
     val currenttime: Long = System.currentTimeMillis() / 60000
 
+
+
+    var isTitleHintVisible by remember { mutableStateOf("") }
+    var isContentHintVisible by remember { mutableStateOf("") }
+
+    if(onReceiveArguments()?.id!="000") {
+        isContentHintVisible = onReceiveArguments()?.content!!
+        isTitleHintVisible = onReceiveArguments()?.title!!
+        Log.e("VALUESEXISTSEDitor000", isTitleHintVisible)
+        Log.e("VALUESEXISTS000", isContentHintVisible)
+    }
+
+
     val FirebaseDatabaseTitle = remember {
-        mutableStateOf(onReceiveArguments()?.title)
+        mutableStateOf(isTitleHintVisible)
     }
     val FirebaseDatabaseContent = remember {
-        mutableStateOf(onReceiveArguments()?.content)
+        mutableStateOf(isContentHintVisible)
     }
+    Log.e("VALUESEXISTSEDitor", isTitleHintVisible)
+    Log.e("VALUESEXISTS", isContentHintVisible)
+
+
 
     var isDialogSaveOpen by remember {
         mutableStateOf(false)
@@ -63,8 +81,7 @@ fun EditorScreen(
     var isSaveButton by remember {
         mutableStateOf(false)
     }
-    var isTitleHintVisible by remember { mutableStateOf(true) }
-    var isContentHintVisible by remember { mutableStateOf(true) }
+
 
 
     Scaffold(topBar = {
@@ -186,10 +203,10 @@ fun EditorScreen(
                 .fillMaxWidth()
                 .padding(pad)
         ) {
-            BasicTextField(value = FirebaseDatabaseTitle.value!!,
+            BasicTextField(value = FirebaseDatabaseTitle.value?:"Enter Title",
                 onValueChange = { Value ->
                     FirebaseDatabaseTitle.value = Value
-                    isTitleHintVisible = FirebaseDatabaseTitle.value!!.isEmpty()
+
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -203,24 +220,15 @@ fun EditorScreen(
                         Color(0xFF6dd5ed)
                     )
                 ),
-                enabled = !isSaveButton,
-                decorationBox = { innerTexts ->
-                    if (isTitleHintVisible) {
-                        Text(
-                            text = "Enter Title here",
-                            color = Color.White,
-                        )
-                    }
-                    innerTexts()
-                })
+                enabled = !isSaveButton
+                )
 
 
             Spacer(modifier = Modifier.size(16.dp))
 
-            BasicTextField(value = FirebaseDatabaseContent.value!!,
+            BasicTextField(value = FirebaseDatabaseContent.value?:"Enter Content",
                 onValueChange = { Value ->
                     FirebaseDatabaseContent.value = Value
-                    isContentHintVisible = FirebaseDatabaseContent.value!!.isEmpty()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -234,16 +242,8 @@ fun EditorScreen(
                         Color(0xFF6dd5ed)
                     )
                 ),
-                enabled = !isSaveButton,
-                decorationBox = { innerText ->
-                    if (isContentHintVisible) {
-                        Text(
-                            text = "Enter Content here",
-                            color = Color.White
-                        )
-                    }
-                    innerText()
-                })
+                enabled = !isSaveButton
+            )
 
         }
     }
