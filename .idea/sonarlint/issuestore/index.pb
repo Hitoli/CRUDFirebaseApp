@@ -1036,3 +1036,5 @@ Q.idea/sonarlint/securityhotspotstore/5/a/5ad7b87d1db31e0e1ab4113c393379f927bda8
 qapp/src/main/java/com/example/notesprojectwithfirebase/Notes_Feature/domain/usecaseImpl/SearchNotesUseCaseImpl.kt,c/b/cb2868bc5c07ecff4ea084ec319ca411fdca9076
 ˜
 happ/src/main/java/com/example/notesprojectwithfirebase/Notes_Feature/domain/usecase/SearchNoteUseCase.kt,f/2/f21f6d3d2e00c9f809f5c6f75c4cbd771aba4918
+w
+G.idea/sonarlint/issuestore/9/7/97b12fce8a46e638f7f1a41f987ba8a644819fe1,e/d/ede8f4a4cd4843ded1877d78a833fae42211ef8a

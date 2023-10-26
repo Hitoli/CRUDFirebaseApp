@@ -177,7 +177,7 @@ fun EditorScreen(
                                         isDialogSaveOpen = false
                                         onReturnBack(
                                             NoteDataFirebase(
-                                                id = "",
+                                                id = onReceiveArguments()?.id?:"",
                                                 title = FirebaseDatabaseTitle.value,
                                                 content = FirebaseDatabaseContent.value,
                                                 timeStamp = currenttime.toString()

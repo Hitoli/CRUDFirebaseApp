@@ -16,9 +16,16 @@ private const val TAG = "VALUESTOREDINFIREBASE"
 
 class SaveData @Inject constructor() : SaveDataInter {
     override fun SaveFirebaseData(dataValue: NoteDataFirebase) {
+        val idpush:String?
         val dataBase =
             FirebaseDatabase.getInstance().getReference("NotesStoringData").child(Build.DEVICE)
-        val idpush = dataBase.push().key ?: ""
+        if(dataValue.id?.isEmpty()!!){
+            idpush = dataBase.push().key ?: ""
+        }else{
+            idpush = dataValue.id
+        }
+
+
         dataBase.child(idpush).setValue(
             NoteDataFirebase(
                 id = idpush,
