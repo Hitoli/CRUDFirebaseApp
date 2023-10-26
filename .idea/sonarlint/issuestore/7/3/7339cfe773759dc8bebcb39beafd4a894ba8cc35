@@ -1,9 +1,7 @@
 
-=kotlin:S125'"Remove this commented out code.(…ğ›…8 Óùµ¶1
-=kotlin:S1259"Remove this commented out code.(ŒÊ°¯8–ƒıµ¶1
-vkotlin:S117"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Õ½àÁüÿÿÿÿ8¢Óùµ¶1
-qkotlin:S117"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(÷õ´ƒ8¢Óùµ¶1
-lkotlin:S117#"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Şˆ…8¢Óùµ¶1
->kotlin:S1128"Remove this unused import.(ˆ²ŞÎûÿÿÿÿ8¨Óùµ¶1
-9kotlin:S1128"Remove this unused import.(ŠëÙ 8¨Óùµ¶1
-}kotlin:S1192?"^Define a constant instead of duplicating this literal "Navigation getting Note by ID" 3 times.(Œ÷˜½8©Óùµ¶1
+vkotlin:S117"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Õ½àÁüÿÿÿÿ8¤™Ë×¶1
+qkotlin:S117"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(¿Ä¶8ùéĞ×¶1
+qkotlin:S117"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(÷õ´ƒ8¤™Ë×¶1
+lkotlin:S117$"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Şˆ…8¤™Ë×¶1
+9kotlin:S1128"Remove this unused import.(ŠëÙ 8ËŸÛ¶1
+8kotlin:S1128	"Remove this unused import.(†™¹$8¬™Ë×¶1

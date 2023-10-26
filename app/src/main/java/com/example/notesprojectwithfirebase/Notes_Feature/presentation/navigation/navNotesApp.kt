@@ -39,16 +39,6 @@ fun navNotesApp(navController: NavHostController) {
                 Log.e("VALUESEXISTS", noteId.toString())
                 navController.navigate(Screens.EditorScreen.route + "/${noteId}")
 
-            }, onSearchClick = {title->
-                NoteList.clear()
-                viewmodel.noteList.value.forEach {
-                    if(it.title ==title ){
-                        NoteList.add(it)
-                    }
-                }
-                Log.e("NoteList", NoteList.toString())
-               NoteList
-
             }, onClearSearchClick = {
                 NoteList.clear()
                 Log.e("NoteList", NoteList.toString())

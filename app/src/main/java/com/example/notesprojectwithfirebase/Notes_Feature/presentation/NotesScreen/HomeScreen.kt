@@ -34,6 +34,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,15 +43,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -64,21 +59,17 @@ import com.example.notesprojectwithfirebase.ui.theme.Fandango
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
-    ListOfNote: List<NoteDataFirebase>,
+    ListOfNotes: List<NoteDataFirebase>,
     onClick: () -> Unit,
     onDeleteClick: (ID: String?) -> Unit,
     onSelectClick: (ID: String?) -> Unit,
-    onClearSearchClick:()->Unit,
-    onSearchClick:(title:String?)->List<NoteDataFirebase>
+    onClearSearchClick: () -> Unit,
 ) {
 
-    var ListofNotes by remember{
-        mutableStateOf(ListOfNote)
-    }
-    var ListofSearchNotes by remember{
-        mutableStateOf<List<NoteDataFirebase>>(emptyList())
-    }
-    Log.e("ListofSesarchNotes11",ListofSearchNotes.toString())
+
+    var ListofSearchNotes by mutableStateOf(listOf<NoteDataFirebase>())
+
+    Log.e("ListofSesarchNotes11", ListofSearchNotes.toString())
 
     var isDialogOpen by remember {
         mutableStateOf(false)
@@ -105,8 +96,8 @@ fun HomeScreen(
                 Box(modifier = Modifier
                     .background(ButtonBackground1, shape = RoundedCornerShape(24))
                     .padding(16.dp)
-                    .clickable { isSearchOpen = true
-                    onSearchClick(areSearchNote)
+                    .clickable {
+                        isSearchOpen = true
                     }) {
                     Icon(
                         painter = painterResource(id = R.drawable.search),
@@ -144,7 +135,7 @@ fun HomeScreen(
     }) {
         val pad = it
 
-        if (ListofNotes.isNotEmpty()) {
+        if (ListOfNotes.isNotEmpty()) {
             areNoteAvailable = true
         }
 
@@ -208,6 +199,7 @@ fun HomeScreen(
 
             }
         }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -229,9 +221,18 @@ fun HomeScreen(
                     fontSize = 20.sp
                 )
             } else {
-                if(isSearchOpen){
-                    Log.e("ListofSesarchNotes",ListofSearchNotes.toString())
+                if (isSearchOpen) {
                     LazyColumn {
+                        ListOfNotes.forEach {Note->
+                            if(Note.title == areSearchNote){
+                               ListofSearchNotes = ListofSearchNotes + Note
+                                Log.e("areSearchNoteplus", Note.toString())
+                                Log.e("areSearchNoteplus", ListOfNotes.toString())
+
+                            }
+                        }
+                        Log.e("areSearchNoteplus", ListofSearchNotes.toString())
+                        Log.e("areSearchNoteplus", areSearchNote.toString())
                         items(ListofSearchNotes) { note ->
                             Box(
                                 modifier = Modifier
@@ -239,7 +240,8 @@ fun HomeScreen(
                                     .combinedClickable(onLongClick = {
                                         selectedIndex = note.id ?: "000"
                                         longPressDetected = true
-                                    }, onClick = { longPressDetected = false
+                                    }, onClick = {
+                                        longPressDetected = false
                                         onSelectClick(selectedIndex)
                                     }
                                     )) {
@@ -252,7 +254,8 @@ fun HomeScreen(
                                             .combinedClickable(onLongClick = {
                                                 onDeleteClick(selectedIndex)
                                                 longPressDetected = true
-                                            }, onClick = { longPressDetected = false
+                                            }, onClick = {
+                                                longPressDetected = false
 
                                             }
                                             )) {
@@ -264,29 +267,35 @@ fun HomeScreen(
                                                 .align(Alignment.Center)
                                         )
                                     }
-                                }else if(selectedIndex!=note.id || !longPressDetected){
+                                } else{
 
                                     Box(modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(16.dp).combinedClickable(onLongClick = {
+                                        .padding(16.dp)
+                                        .combinedClickable(onLongClick = {
                                             selectedIndex = note.id ?: ""
                                             longPressDetected = true
-                                        }, onClick = { longPressDetected = false
-                                            onSelectClick(note.id)}
+                                        }, onClick = {
+                                            longPressDetected = false
+                                            onSelectClick(note.id)
+                                        }
                                         )
                                         .padding(end = 32.dp)
                                         .clickable {
                                             onSelectClick(selectedIndex)
-                                        }){
+                                        }) {
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(16.dp).combinedClickable(onLongClick = {
+                                                .padding(16.dp)
+                                                .combinedClickable(onLongClick = {
                                                     selectedIndex = note.id ?: ""
                                                     longPressDetected = true
 
-                                                }, onClick = { longPressDetected = false
-                                                    onSelectClick(note.id)}
+                                                }, onClick = {
+                                                    longPressDetected = false
+                                                    onSelectClick(note.id)
+                                                }
                                                 )
                                                 .padding(end = 32.dp),
                                             verticalArrangement = Arrangement.Center,
@@ -319,16 +328,17 @@ fun HomeScreen(
 
                         }
                     }
-                }else{
+                } else {
                     LazyColumn {
-                        items(ListofNotes) { note ->
+                        items(ListOfNotes) { note ->
                             Box(
                                 modifier = Modifier
                                     .background(Fandango)
                                     .combinedClickable(onLongClick = {
-                                        selectedIndex = note.id ?: "000"
+                                        selectedIndex = note.id ?: ""
                                         longPressDetected = true
-                                    }, onClick = { longPressDetected = false
+                                    }, onClick = {
+                                        longPressDetected = false
                                         onSelectClick(selectedIndex)
                                     }
                                     )) {
@@ -341,7 +351,8 @@ fun HomeScreen(
                                             .combinedClickable(onLongClick = {
                                                 onDeleteClick(selectedIndex)
                                                 longPressDetected = true
-                                            }, onClick = { longPressDetected = false
+                                            }, onClick = {
+                                                longPressDetected = false
 
                                             }
                                             )) {
@@ -353,29 +364,35 @@ fun HomeScreen(
                                                 .align(Alignment.Center)
                                         )
                                     }
-                                }else if(selectedIndex!=note.id || !longPressDetected){
+                                } else{
 
                                     Box(modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(16.dp).combinedClickable(onLongClick = {
+                                        .padding(16.dp)
+                                        .combinedClickable(onLongClick = {
                                             selectedIndex = note.id ?: ""
                                             longPressDetected = true
-                                        }, onClick = { longPressDetected = false
-                                            onSelectClick(note.id)}
+                                        }, onClick = {
+                                            longPressDetected = false
+                                            onSelectClick(note.id)
+                                        }
                                         )
                                         .padding(end = 32.dp)
                                         .clickable {
                                             onSelectClick(selectedIndex)
-                                        }){
+                                        }) {
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .padding(16.dp).combinedClickable(onLongClick = {
+                                                .padding(16.dp)
+                                                .combinedClickable(onLongClick = {
                                                     selectedIndex = note.id ?: ""
                                                     longPressDetected = true
 
-                                                }, onClick = { longPressDetected = false
-                                                    onSelectClick(note.id)}
+                                                }, onClick = {
+                                                    longPressDetected = false
+                                                    onSelectClick(note.id)
+                                                }
                                                 )
                                                 .padding(end = 32.dp),
                                             verticalArrangement = Arrangement.Center,
@@ -422,15 +439,15 @@ fun HomeScreen(
                 .padding(16.dp)
         ) {
             OutlinedTextField(value = areSearchNote, onValueChange = {
-                areSearchNote =it
+                areSearchNote = it
             }, modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged {
                     showClearButton = true
                 }, leadingIcon = {
-                IconButton(onClick = { ListofSearchNotes = onSearchClick(areSearchNote)
+                IconButton(onClick = {
                     Log.e("areSearchNote", ListofSearchNotes.toString())
-                    Log.e("areSearchNote", areSearchNote.toString())
+                    Log.e("areSearchNote", areSearchNote)
 
                 }) {
                     Icon(
@@ -446,7 +463,8 @@ fun HomeScreen(
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    IconButton(onClick = { isSearchOpen = false
+                    IconButton(onClick = {
+                        isSearchOpen = false
                         onClearSearchClick()
                     }) {
                         Icon(

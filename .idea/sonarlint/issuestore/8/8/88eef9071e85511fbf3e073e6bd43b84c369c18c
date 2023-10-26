@@ -1,4 +1,4 @@
 
-lkotlin:S117"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Ò€‹µ8°ÑÞ´¶1
-lkotlin:S117!"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(©ú´ý8°ÑÞ´¶1
->kotlin:S1128"Remove this unused import.(ˆ²ÞÎûÿÿÿÿ8³ÑÞ´¶1
+lkotlin:S117"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Ò€‹µ8—ú¼Ô¶1
+lkotlin:S117!"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(©ú´ý8—ú¼Ô¶1
+dkotlin:S6309%"@Functions returning "Flow" or "Channel" should not be suspending(¬ý½‚øÿÿÿÿ8šú¼Ô¶1
