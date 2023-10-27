@@ -229,7 +229,9 @@ fun HomeScreen(
                             val trimmedSearchNote = areSearchNote.trim()
                             val trimmedNoteTitle = Note.title?.trim()
                             if (trimmedNoteTitle == (trimmedSearchNote)) {
-                                ListofSearchNotes.value = ListofSearchNotes.value + Note
+                                if(!ListofSearchNotes.value.contains(Note)){
+                                    ListofSearchNotes.value = ListofSearchNotes.value + Note
+                                }
                             }
                         }
 
