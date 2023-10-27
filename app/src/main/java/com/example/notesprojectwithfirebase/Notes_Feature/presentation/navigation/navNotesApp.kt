@@ -39,9 +39,6 @@ fun navNotesApp(navController: NavHostController) {
                 Log.e("VALUESEXISTS", noteId.toString())
                 navController.navigate(Screens.EditorScreen.route + "/${noteId}")
 
-            }, onClearSearchClick = {
-                NoteList.clear()
-                Log.e("NoteList", NoteList.toString())
             })
 
         }

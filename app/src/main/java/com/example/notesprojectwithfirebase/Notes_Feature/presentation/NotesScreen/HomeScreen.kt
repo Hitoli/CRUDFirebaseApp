@@ -33,8 +33,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -51,6 +51,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.notesprojectwithfirebase.Notes_Feature.data_source.source.firebase.noteDataFirebase.NoteDataFirebase
 import com.example.notesprojectwithfirebase.Notes_Feature.presentation.Consts.ConstantsOfProject
+import com.example.notesprojectwithfirebase.Notes_Feature.presentation.NotesScreen.NoteSearchNotAvailableScreen
+import com.example.notesprojectwithfirebase.Notes_Feature.presentation.NotesScreen.NotesNotAvailableScreen
 import com.example.notesprojectwithfirebase.R
 import com.example.notesprojectwithfirebase.ui.theme.Background1
 import com.example.notesprojectwithfirebase.ui.theme.ButtonBackground1
@@ -63,13 +65,10 @@ fun HomeScreen(
     onClick: () -> Unit,
     onDeleteClick: (ID: String?) -> Unit,
     onSelectClick: (ID: String?) -> Unit,
-    onClearSearchClick: () -> Unit,
+
 ) {
 
-
-    var ListofSearchNotes by mutableStateOf(listOf<NoteDataFirebase>())
-
-    Log.e("ListofSesarchNotes11", ListofSearchNotes.toString())
+    val ListofSearchNotes = remember { mutableStateOf(listOf<NoteDataFirebase>()) }
 
     var isDialogOpen by remember {
         mutableStateOf(false)
@@ -86,6 +85,14 @@ fun HomeScreen(
     var showClearButton by remember { mutableStateOf(false) }
     var longPressDetected by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf("") }
+
+
+    DisposableEffect(areSearchNote) {
+        ListofSearchNotes.value = emptyList()
+        onDispose { /* TODO */ }
+    }
+
+
 
 
 
@@ -137,6 +144,9 @@ fun HomeScreen(
 
         if (ListOfNotes.isNotEmpty()) {
             areNoteAvailable = true
+        }
+        if(!isSearchOpen){
+            ListofSearchNotes.value = emptyList()
         }
 
         if (isDialogOpen) {
@@ -208,32 +218,24 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (!areNoteAvailable) {
-                Image(
-                    painter = painterResource(id = R.drawable.rafiki),
-                    contentDescription = ConstantsOfProject.HomeScreenNotesIcon,
-                    modifier = Modifier.size(350.dp)
-                )
-                Spacer(modifier = Modifier.padding(8.dp))
-
-                Text(
-                    text = ConstantsOfProject.HomeScreenNotesIconTagLine,
-                    color = Color.White,
-                    fontSize = 20.sp
-                )
+                // Screen if no notes are found
+                NotesNotAvailableScreen()
             } else {
                 if (isSearchOpen) {
-                    LazyColumn {
-                        ListOfNotes.forEach {Note->
-                            if(Note.title == areSearchNote){
-                               ListofSearchNotes = ListofSearchNotes + Note
-                                Log.e("areSearchNoteplus", Note.toString())
-                                Log.e("areSearchNoteplus", ListOfNotes.toString())
 
+
+                    LazyColumn {
+                        ListOfNotes.forEach { Note ->
+                            val trimmedSearchNote = areSearchNote.trim()
+                            val trimmedNoteTitle = Note.title?.trim()
+                            if (trimmedNoteTitle == (trimmedSearchNote)) {
+                                ListofSearchNotes.value = ListofSearchNotes.value + Note
                             }
                         }
-                        Log.e("areSearchNoteplus", ListofSearchNotes.toString())
-                        Log.e("areSearchNoteplus", areSearchNote.toString())
-                        items(ListofSearchNotes) { note ->
+
+
+
+                        items(ListofSearchNotes.value) { note ->
                             Box(
                                 modifier = Modifier
                                     .background(Fandango)
@@ -242,7 +244,7 @@ fun HomeScreen(
                                         longPressDetected = true
                                     }, onClick = {
                                         longPressDetected = false
-                                        onSelectClick(selectedIndex)
+                                        onSelectClick(note.id ?: "000")
                                     }
                                     )) {
                                 if (selectedIndex == note.id && longPressDetected) {
@@ -267,7 +269,7 @@ fun HomeScreen(
                                                 .align(Alignment.Center)
                                         )
                                     }
-                                } else{
+                                } else {
 
                                     Box(modifier = Modifier
                                         .fillMaxWidth()
@@ -277,7 +279,7 @@ fun HomeScreen(
                                             longPressDetected = true
                                         }, onClick = {
                                             longPressDetected = false
-                                            onSelectClick(note.id)
+                                            onSelectClick(note.id ?: "000")
                                         }
                                         )
                                         .padding(end = 32.dp)
@@ -331,15 +333,18 @@ fun HomeScreen(
                 } else {
                     LazyColumn {
                         items(ListOfNotes) { note ->
+                            var colorOnNotes by remember{
+                                mutableStateOf(NoteDataFirebase.colorInt.random())
+                            }
                             Box(
                                 modifier = Modifier
-                                    .background(Fandango)
+                                    .background(colorOnNotes, shape = RoundedCornerShape(10.dp))
                                     .combinedClickable(onLongClick = {
-                                        selectedIndex = note.id ?: ""
+                                        selectedIndex = note.id ?: "000"
                                         longPressDetected = true
                                     }, onClick = {
                                         longPressDetected = false
-                                        onSelectClick(selectedIndex)
+                                        onSelectClick(note.id?:"000")
                                     }
                                     )) {
                                 if (selectedIndex == note.id && longPressDetected) {
@@ -364,7 +369,7 @@ fun HomeScreen(
                                                 .align(Alignment.Center)
                                         )
                                     }
-                                } else{
+                                } else {
 
                                     Box(modifier = Modifier
                                         .fillMaxWidth()
@@ -378,9 +383,7 @@ fun HomeScreen(
                                         }
                                         )
                                         .padding(end = 32.dp)
-                                        .clickable {
-                                            onSelectClick(selectedIndex)
-                                        }) {
+                                        ) {
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxWidth()
@@ -401,17 +404,21 @@ fun HomeScreen(
                                             Text(
                                                 text = note.title!!,
                                                 style = MaterialTheme.typography.headlineMedium,
-                                                color = MaterialTheme.colorScheme.onSurface,
+                                                color = Color.Black,
+                                                fontSize = 25.sp,
                                                 maxLines = 1,
-                                                overflow = TextOverflow.Ellipsis
+                                                overflow = TextOverflow.Ellipsis,
+                                                textAlign = TextAlign.Center
                                             )
                                             Spacer(modifier = Modifier.size(30.dp))
                                             Text(
                                                 text = note.content!!,
                                                 style = MaterialTheme.typography.bodyMedium,
-                                                color = MaterialTheme.colorScheme.onSurface,
+                                                fontSize = 18.sp,
+                                                color = Color.Black,
                                                 maxLines = 10,
-                                                overflow = TextOverflow.Ellipsis
+                                                overflow = TextOverflow.Ellipsis,
+                                                textAlign = TextAlign.Center
                                             )
 
                                         }
@@ -432,6 +439,9 @@ fun HomeScreen(
         }
     }
     if (isSearchOpen) {
+        if(ListofSearchNotes.value.isEmpty() ||areSearchNote.isEmpty() && isSearchOpen){
+            NoteSearchNotAvailableScreen()
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -464,8 +474,8 @@ fun HomeScreen(
                     exit = fadeOut()
                 ) {
                     IconButton(onClick = {
+
                         isSearchOpen = false
-                        onClearSearchClick()
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.close),

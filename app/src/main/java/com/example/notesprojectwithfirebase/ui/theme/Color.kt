@@ -15,8 +15,8 @@ val ButtonBackground1 =Color(0XFF3B3B3B)
 val BackgroundCharcoal = Color(0xFF36454F)
 
 val BlueMunsell = Color(0xFF048BA8)
-val Emerald = Color(0xFF16DB93)
-val Fandango = Color(0xFFA4036F)
-val Maize = Color(0xFFEFEA5A)
-val Sandybrown = Color(0xFFF29E4C)
+val Emerald = Color(0xFF9EFFFF)
+val Fandango = Color(0xFFFD99FF)
+val Maize = Color(0xFFFF9E9E)
+val Sandybrown = Color(0xFFFFF599)
 

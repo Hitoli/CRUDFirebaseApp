@@ -1,8 +1,8 @@
 
-qkotlin:S117>"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Õ”Ìşûÿÿÿÿ8¢®ÕÜ¶1
-qkotlin:S117F"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(œŒÇ«8£®ÕÜ¶1
-lkotlin:S117â"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ÌË†8¥®ÕÜ¶1
-Hkotlin:S1481ˆ"(Remove this unused "pad" local variable.(È«†¥8®¯ÕÜ¶1
-9kotlin:S1128"Remove this unused import.(™òæÜ8Í¯ÕÜ¶1
-9kotlin:S1128%"Remove this unused import.(ÒøÕÉ8Ï¯ÕÜ¶1
-vkotlin:S3776="RRefactor this method to reduce its Cognitive Complexity from 41 to the 15 allowed.(›¼¾“üÿÿÿÿ8â¯ÕÜ¶1
+qkotlin:S117>"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Õ”Ìşûÿÿÿÿ8‰Èà¶1
+qkotlin:S117F"SRename this local variable to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(Î¸ºº8ŠÈà¶1
+lkotlin:S117ä"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ÌË†8ŒÈà¶1
+Hkotlin:S1481Š"(Remove this unused "pad" local variable.(È«†¥8¾Éà¶1
+9kotlin:S1128"Remove this unused import.(™òæÜ8òÉà¶1
+9kotlin:S1128%"Remove this unused import.(ÒøÕÉ8òÉà¶1
+vkotlin:S3776="RRefactor this method to reduce its Cognitive Complexity from 41 to the 15 allowed.(›¼¾“üÿÿÿÿ8µÊà¶1
